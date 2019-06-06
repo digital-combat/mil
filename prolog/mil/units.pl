@@ -1,4 +1,4 @@
-:- module(mil_unit,
+:- module(mil_units,
           [   alpha_ordinal//1,         % ?Unit
               alpha//1,                 % ?Alpha
               ordinal//1                % ?Ordinal
