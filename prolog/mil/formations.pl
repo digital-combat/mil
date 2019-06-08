@@ -25,6 +25,9 @@
 %   Variables bind a compound. Hence a Formation argument of A unifies
 %   with compound argument B/C by default. Stop this happening.
 %
+%   Treats dashes (-) in a special way. Dashed sub-units concatenate
+%   together to form a single Units element.
+%
 %   @arg Formation is a slash-delimited compound describing the
 %   formation in ascending order, small to large sub-unit; that is
 %   minor-priority ordering.
@@ -37,6 +40,8 @@ formation_units(Unit, [Unit]) :-
     !.
 formation_units(Formation/Unit, [Unit|Units]) :-
     formation_units(Formation, Units).
+formation_units(Formation-Unit, [Unit0-Unit|Units]) :-
+    formation_units(Formation, [Unit0|Units]).
 
 %!  formation_concat(?Minor, ?Major, ?Formation) is semidet.
 %
