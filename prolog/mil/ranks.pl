@@ -58,9 +58,9 @@ mil:rank_property(Rank, super(Super)) :-
     mil:rank_property(Super, order(Order)),
     Order0 < Order.
 
-%   grade_order(?Grade:atom, ?Order:number) is nondet.
+%!  grade_order(?Grade:atom, ?Order:number) is nondet.
 %
-%   There are four tiers:
+%   There are three tiers:
 %
 %       - commissioned officer
 %       - non-commissioned officer
@@ -88,6 +88,11 @@ level(Level) :-
     !.
 level(Level) :-
     integer(Level).
+
+%!  prime_order(?Prime:atom, ?Order:number) is nondet.
+%
+%   Prime is either =a= or =b=. The corresponding Order demotes bravo.
+%   The prime does not boost one level to the next level of rank.
 
 prime_order(a,                          0).
 prime_order(b,                          -0.5).
