@@ -14,10 +14,10 @@
 %   Rank Property terms include:
 %
 %       * defined
-%       * grade(Grade:atom)
-%       * level(Level:nonneg)
-%       * prime(Prime:atom)
-%       * order(Order:number)
+%       * grade(?Grade:atom)
+%       * level(?Level:nonneg)
+%       * prime(?Prime:atom)
+%       * order(?Order:number)
 %
 %       Order is a number, nominally between 0 and 40, representing the
 %       Rank ordering somewhere in-between the lowest enlisted rank and
@@ -25,7 +25,7 @@
 %       authority over others with lower rank, assuming they belong to
 %       the same unit.
 %
-%       * super(Super)
+%       * super(?Super)
 %
 %       Unifies Rank with sub-ordinate ranks.
 %
@@ -63,14 +63,16 @@ mil:rank_property(Rank, super(Super)) :-
 %   There are four tiers:
 %
 %       - commissioned officer
-%       - warrant officer
 %       - non-commissioned officer
 %       - enlisted
+%
+%   Non-commissioned officer grades subsume warrant officers, although
+%   some warrant officers received commissioned status once upon a time
+%   in the Royal Navy.
 
 grade_order(enlisted,                   0).
-grade_order(officer,                    10).
-grade_order(warrant,                    20).
-grade_order(commissioned,               30).
+grade_order(noncommissioned,            10).
+grade_order(commissioned,               20).
 
 %!  level_order(?Level:nonneg, ?Order:number) is nondet.
 %
@@ -79,7 +81,7 @@ grade_order(commissioned,               30).
 
 level_order(Level, Level) :-
     level(Level),
-    between(0, 9, Level).
+    between(1, 9, Level).
 
 level(Level) :-
     var(Level),
