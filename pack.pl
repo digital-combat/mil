@@ -1,3 +1,3 @@
 name(mil).
 version('0.1.0').
-title('Military formations').
+title('Military formations, ranks').

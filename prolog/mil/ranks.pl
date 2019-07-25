@@ -1,15 +1,11 @@
-:- module(mil_ranks, []).
+:- module(mil_ranks, [rank_property/2]).
 
 :- use_module(library(mil)).
 
-/** <module> Officers, enlisted ranks
-
-*/
-
 :- multifile
-    mil:rank_property/2.
+    mil:property_of_rank/2.
 
-%!  mil:rank_property(?Rank, ?Property) is nondet.
+%!  rank_property(?Rank, ?Property) is nondet.
 %
 %   Rank Property terms include:
 %
@@ -32,31 +28,27 @@
 %   Does not perform rank expansion. Instead presumes Rank already
 %   fully expanded with grade, level and prime components.
 
-mil:rank_property(Grade-Level/Prime, defined) :-
+rank_property(Grade-Level/Prime, defined) :-
     grade_order(Grade, _),
     level_order(Level, _),
     prime_order(Prime, _).
-mil:rank_property(Grade-Level/Prime, grade(Grade)) :-
-    grade_order(Grade, _),
-    level_order(Level, _),
-    prime_order(Prime, _).
-mil:rank_property(Grade-Level/Prime, level(Level)) :-
-    grade_order(Grade, _),
-    level_order(Level, _),
-    prime_order(Prime, _).
-mil:rank_property(Grade-Level/Prime, prime(Prime)) :-
-    grade_order(Grade, _),
-    level_order(Level, _),
-    prime_order(Prime, _).
-mil:rank_property(Grade-Level/Prime, order(Order)) :-
+rank_property(Grade-Level/Prime, grade(Grade)) :-
+    rank_property(Grade-Level/Prime, defined).
+rank_property(Grade-Level/Prime, level(Level)) :-
+    rank_property(Grade-Level/Prime, defined).
+rank_property(Grade-Level/Prime, prime(Prime)) :-
+    rank_property(Grade-Level/Prime, defined).
+rank_property(Grade-Level/Prime, order(Order)) :-
     grade_order(Grade, Grade0),
     level_order(Level, Level0),
     prime_order(Prime, Prime0),
     Order is Grade0 + Level0 + Prime0.
-mil:rank_property(Rank, super(Super)) :-
-    mil:rank_property(Rank, order(Order0)),
-    mil:rank_property(Super, order(Order)),
-    Order0 < Order.
+rank_property(Rank, super(Super)) :-
+    rank_property(Rank, order(Order0)),
+    rank_property(Super, order(Order)),
+    Order0 @< Order.
+rank_property(Rank, Property) :-
+    mil:property_of_rank(Property, Rank).
 
 %!  grade_order(?Grade:atom, ?Order:number) is nondet.
 %
